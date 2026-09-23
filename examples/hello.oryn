@@ -1,0 +1,4 @@
+// Hello world and primitive values.
+let language = "Oryn-ML";
+println("hello from " + language);
+println(40 + 2);
