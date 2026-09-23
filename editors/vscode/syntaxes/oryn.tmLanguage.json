@@ -1,0 +1,192 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Oryn-ML",
+  "scopeName": "source.oryn",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#function-declarations" },
+    { "include": "#let-bindings" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#constructors" },
+    { "include": "#builtins" },
+    { "include": "#method-calls" },
+    { "include": "#function-calls" },
+    { "include": "#numbers" },
+    { "include": "#operators" },
+    { "include": "#punctuation" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.oryn",
+          "begin": "//",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.comment.oryn" }
+          },
+          "end": "$"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.oryn",
+          "begin": "\"",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.string.begin.oryn" }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.string.end.oryn" }
+          },
+          "patterns": [
+            {
+              "name": "constant.character.escape.oryn",
+              "match": "\\\\(?:[ntr\\\"\\\\]|x[0-9A-Fa-f]{2})"
+            },
+            {
+              "name": "invalid.illegal.escape.oryn",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "function-declarations": {
+      "patterns": [
+        {
+          "match": "\\b(fn)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": { "name": "storage.type.function.oryn" },
+            "2": { "name": "entity.name.function.oryn" }
+          }
+        }
+      ]
+    },
+    "let-bindings": {
+      "patterns": [
+        {
+          "match": "\\b(let)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": { "name": "storage.type.oryn" },
+            "2": { "name": "variable.other.readwrite.oryn" }
+          }
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.conditional.oryn",
+          "match": "\\b(?:if|else|match)\\b"
+        },
+        {
+          "name": "constant.language.boolean.oryn",
+          "match": "\\b(?:true|false)\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "support.type.primitive.oryn",
+          "match": "\\b(?:Int|Float|Bool|Char|String|Unit)\\b"
+        },
+        {
+          "name": "support.type.oryn",
+          "match": "\\b(?:Array|Option|Result|Ordering)\\b"
+        }
+      ]
+    },
+    "constructors": {
+      "patterns": [
+        {
+          "name": "entity.name.type.variant.oryn",
+          "match": "\\b(?:Some|None|Ok|Err|Less|Equal|Greater)\\b"
+        }
+      ]
+    },
+    "builtins": {
+      "patterns": [
+        {
+          "name": "support.function.builtin.oryn",
+          "match": "\\b(?:print|println|assert|panic|len|get)\\b(?=\\s*\\()"
+        }
+      ]
+    },
+    "method-calls": {
+      "patterns": [
+        {
+          "match": "(\\.)([A-Za-z_][A-Za-z0-9_]*)(?=\\s*\\()",
+          "captures": {
+            "1": { "name": "punctuation.accessor.oryn" },
+            "2": { "name": "entity.name.function.member.oryn" }
+          }
+        }
+      ]
+    },
+    "function-calls": {
+      "patterns": [
+        {
+          "name": "entity.name.function.call.oryn",
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b(?=\\s*\\()"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.float.oryn",
+          "match": "(?<![A-Za-z0-9_])\\d+\\.\\d+(?![A-Za-z0-9_])"
+        },
+        {
+          "name": "constant.numeric.integer.oryn",
+          "match": "(?<![A-Za-z0-9_])\\d+(?![A-Za-z0-9_])"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.pipeline.oryn",
+          "match": "\\|>"
+        },
+        {
+          "name": "keyword.operator.arrow.oryn",
+          "match": "=>|->"
+        },
+        {
+          "name": "keyword.operator.comparison.oryn",
+          "match": "==|!=|<=|>=|<|>"
+        },
+        {
+          "name": "keyword.operator.logical.oryn",
+          "match": "&&|\\|\\||!"
+        },
+        {
+          "name": "keyword.operator.arithmetic.oryn",
+          "match": "[+\\-*/%]"
+        },
+        {
+          "name": "keyword.operator.assignment.oryn",
+          "match": "="
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "name": "punctuation.separator.oryn",
+          "match": "[,;:]"
+        },
+        {
+          "name": "punctuation.section.group.oryn",
+          "match": "[(){}\\[\\]]"
+        }
+      ]
+    }
+  }
+}
