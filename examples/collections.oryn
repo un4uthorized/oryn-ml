@@ -1,0 +1,13 @@
+let xs = [1, 2, 3, 4];
+assert(xs.len() == 4);
+assert(!xs.is_empty());
+
+match xs.get(2) {
+    Some(value) => println(value),
+    None => panic("missing element")
+};
+
+match xs.get(99) {
+    Some(value) => panic("unexpected element"),
+    None => println("safe indexing returned None")
+};
