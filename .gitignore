@@ -1,0 +1,34 @@
+# Build and generated test artifacts
+/bin/
+*.o
+*.a
+*.so
+*.dylib
+*.dSYM/
+*.gcda
+*.gcno
+*.gcov
+coverage/
+
+# Compiler tooling
+compile_commands.json
+.cache/
+
+# Packaged editor extensions
+*.vsix
+
+# Local editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Operating-system metadata
+.DS_Store
+Thumbs.db
+
+# Local environment files
+.env
+.env.*
+!.env.example
