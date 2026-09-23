@@ -1,0 +1,12 @@
+// Anonymous functions can capture values from their lexical scope.
+let offset = 10;
+let numbers = [1, 2, 3, 4, 5];
+
+let shifted = numbers.map(fn value: Int => value + offset);
+let even = numbers.filter(fn value: Int => value % 2 == 0);
+let total = numbers.fold(0, fn(acc: Int, value: Int) => acc + value);
+
+println(shifted);
+println(even);
+println(total);
+
