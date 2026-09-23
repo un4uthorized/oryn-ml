@@ -1,0 +1,54 @@
+{
+  "name": "oryn-ml",
+  "displayName": "Oryn-ML Language Support",
+  "description": "Syntax highlighting and editor support for the Oryn-ML language.",
+  "version": "0.1.2",
+  "publisher": "oryn-ml",
+  "license": "MIT",
+  "files": [
+    "extension.js",
+    "language/builtins.json",
+    "language-configuration.json",
+    "syntaxes/oryn.tmLanguage.json",
+    "README.md"
+  ],
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "main": "./extension.js",
+  "activationEvents": [
+    "onLanguage:oryn"
+  ],
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "oryn",
+    "oryn-ml",
+    "functional",
+    "language"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "oryn",
+        "aliases": [
+          "Oryn-ML",
+          "Oryn",
+          "oryn"
+        ],
+        "extensions": [
+          ".oryn"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "oryn",
+        "scopeName": "source.oryn",
+        "path": "./syntaxes/oryn.tmLanguage.json"
+      }
+    ]
+  }
+}
