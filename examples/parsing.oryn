@@ -1,0 +1,14 @@
+// Numeric parsing returns Result instead of aborting on invalid input.
+match Int.parse("2026") {
+    Ok(year) => println(year),
+    Err(message) => println(message)
+};
+
+let port = Int.parse("invalid").unwrap_or(8080);
+println(port);
+
+let ratio = Float.parse("2.5");
+assert(ratio.is_ok());
+assert(Float.parse("not-a-number").is_err());
+println(ratio.unwrap_or(1.0));
+
