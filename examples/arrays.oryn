@@ -1,0 +1,20 @@
+// Arrays support structural equality and return new values when transformed.
+let left = [1, 2, 3];
+let right = [4, 5];
+let combined = left.concat(right);
+
+println(combined);
+println(combined.reverse());
+assert(combined == [1, 2, 3, 4, 5]);
+assert(combined.contains(4));
+
+match combined.slice(1, 4) {
+    Ok(values) => println(values),
+    Err(message) => panic(message)
+};
+
+match combined.slice(4, 2) {
+    Ok(values) => println(values),
+    Err(message) => println("invalid slice")
+};
+
