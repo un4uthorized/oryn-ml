@@ -1,0 +1,57 @@
+// A complete Oryn-ML v0.1 example: parse, validate and summarize scores.
+
+fn clamp_score(score: Int) -> Int {
+    if score < 0 { 0 } else {
+        if score > 100 { 100 } else { score }
+    }
+}
+
+fn add_bonus(score: Int) -> Int {
+    clamp_score(score + 5)
+}
+
+fn classification(average: Int) -> String {
+    if average >= 70 { "approved" } else { "review" }
+}
+
+let source = " 82, 91, invalid, 64, 105, 73 ";
+
+// Invalid integers use zero as a visible fallback. Values are then clamped.
+let scores = source
+    .trim()
+    .split(",")
+    .map(fn text: String => Int.parse(text.trim()).unwrap_or(0))
+    .map(fn score: Int => clamp_score(score));
+
+let minimum = 60;
+let passing = scores.filter(fn score: Int => score >= minimum);
+let adjusted = passing.map(fn score: Int => score |> add_bonus);
+let total = adjusted.fold(0, fn(acc: Int, score: Int) => acc + score);
+let average = if adjusted.is_empty() { 0 } else { total / adjusted.len() };
+
+println("Oryn-ML score report");
+println("parsed: ");
+println(scores);
+println("passing: ");
+println(passing);
+println("adjusted: ");
+println(adjusted);
+println("average: ");
+println(average);
+println("status: " + classification(average));
+
+// Safe collection access is represented with Option.
+match adjusted.first() {
+    Some(score) => println("first adjusted score: ", score),
+    None => println("no adjusted scores")
+};
+
+// Checked slicing is represented with Result.
+match adjusted.slice(0, 2) {
+    Ok(top) => println(top),
+    Err(message) => println("slice error: " + message)
+};
+
+assert(scores.len() == 6);
+assert(adjusted == [87, 96, 69, 100, 78]);
+assert(average == 86);
