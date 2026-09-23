@@ -1,0 +1,211 @@
+{
+  "globals": {
+    "print": {
+      "kind": "function",
+      "signature": "print(values: Any...) -> Unit",
+      "summary": "Writes each value to standard output without appending a newline.",
+      "details": "Values use Oryn's default representation. Strings are written without quotes; arrays and algebraic values include their delimiters.",
+      "parameters": { "values": "Zero or more values to format and write, in argument order." },
+      "returns": "`Unit` after all values have been written.",
+      "examples": ["print(42);", "print(\"result: \", Ok(42));"]
+    },
+    "println": {
+      "kind": "function",
+      "signature": "println(values: Any...) -> Unit",
+      "summary": "Writes each value to standard output and terminates the line.",
+      "details": "Formatting is identical to `print`. Exactly one newline is emitted after the final argument, including when no arguments are provided.",
+      "parameters": { "values": "Zero or more values to format and write, in argument order." },
+      "returns": "`Unit` after the line has been written.",
+      "examples": ["println(\"hello\");", "println([1, 2, 3]);"]
+    },
+    "assert": {
+      "kind": "function",
+      "signature": "assert(condition: Bool) -> Unit",
+      "summary": "Checks that a condition is true and stops the program when it is false.",
+      "details": "Use assertions for invariants and programmer errors. They are not a replacement for `Option` or `Result` when failure is expected during normal execution.",
+      "parameters": { "condition": "Boolean expression that must evaluate to `true`." },
+      "returns": "`Unit` when the condition is true.",
+      "panics": "Panics with `assertion failed` when the condition is false. A non-boolean argument produces an `expected Bool` runtime error.",
+      "examples": ["assert(values.len() == 3);"]
+    },
+    "panic": {
+      "kind": "function",
+      "signature": "panic(message: String) -> Never",
+      "summary": "Immediately terminates the program with a fatal error message.",
+      "details": "Use `panic` only when execution cannot safely continue. Recoverable failures should be represented with `Option` or `Result`.",
+      "parameters": { "message": "Human-readable explanation of the fatal error." },
+      "returns": "Never returns.",
+      "panics": "Always. Passing a non-string value also produces a runtime panic.",
+      "examples": ["panic(\"configuration is invalid\");"]
+    },
+    "len": {
+      "kind": "function",
+      "signature": "len(value: Array<T> | String) -> Int",
+      "summary": "Returns the length of an array or string.",
+      "details": "For arrays, the result is the number of elements. For strings, the current runtime reports the number of UTF-8 bytes, not Unicode code points or grapheme clusters.",
+      "parameters": { "value": "Array or string whose length will be measured." },
+      "returns": "A non-negative `Int` containing the length.",
+      "panics": "Panics when `value` is neither an `Array` nor a `String`.",
+      "examples": ["len([10, 20, 30]); // 3", "len(\"Oryn\"); // 4"]
+    },
+    "get": {
+      "kind": "function",
+      "signature": "get(values: Array<T>, index: Int) -> Option<T>",
+      "summary": "Retrieves an array element without allowing an out-of-bounds access.",
+      "details": "Indices start at zero. Negative indices and indices greater than or equal to the array length return `None`.",
+      "parameters": {
+        "values": "Array to read from. The array is not modified.",
+        "index": "Zero-based position of the requested element."
+      },
+      "returns": "`Some(value)` when the index exists; otherwise `None`.",
+      "panics": "Panics when the first argument is not an array or the index is not an `Int`.",
+      "examples": ["get([10, 20], 1); // Some(20)", "get([10, 20], 9); // None"]
+    },
+    "Some": {
+      "kind": "constructor",
+      "signature": "Some(value: T) -> Option<T>",
+      "summary": "Constructs an `Option` that contains a value.",
+      "details": "Use `Some` when a computation successfully produced an optional value. Consume it with `match` rather than assuming a value is present.",
+      "parameters": { "value": "Value stored inside the option." },
+      "returns": "An `Option<T>` in the `Some` variant.",
+      "examples": ["let port = Some(8080);"]
+    },
+    "None": {
+      "kind": "constructor",
+      "signature": "None: Option<T>",
+      "summary": "Represents an optional value that is absent.",
+      "details": "`None` carries no payload. Safe lookup operations return it when no element exists.",
+      "returns": "An `Option<T>` in the `None` variant.",
+      "examples": ["match value { Some(x) => println(x), None => println(\"missing\") };"]
+    },
+    "Ok": {
+      "kind": "constructor",
+      "signature": "Ok(value: T) -> Result<T, E>",
+      "summary": "Constructs a successful `Result` value.",
+      "details": "Use `Ok` for an operation that completed successfully and produced a value.",
+      "parameters": { "value": "Successful value stored in the result." },
+      "returns": "A `Result<T, E>` in the `Ok` variant.",
+      "examples": ["let parsed = Ok(42);"]
+    },
+    "Err": {
+      "kind": "constructor",
+      "signature": "Err(error: E) -> Result<T, E>",
+      "summary": "Constructs a failed `Result` value.",
+      "details": "Use `Err` for expected failures that callers can inspect and handle. Fatal invariants should use `panic` instead.",
+      "parameters": { "error": "Error value describing why the operation failed." },
+      "returns": "A `Result<T, E>` in the `Err` variant.",
+      "examples": ["let parsed = Err(\"invalid integer\");"]
+    }
+  },
+  "methods": {
+    "len": {
+      "kind": "method",
+      "signature": "value.len() -> Int",
+      "summary": "Returns the length of an array or string.",
+      "details": "Array length counts elements. String length currently counts UTF-8 bytes rather than Unicode code points or grapheme clusters.",
+      "returns": "A non-negative `Int` containing the length.",
+      "panics": "Panics when the receiver is neither an `Array` nor a `String`.",
+      "examples": ["[1, 2, 3].len(); // 3", "\"Oryn\".len(); // 4"]
+    },
+    "is_empty": {
+      "kind": "method",
+      "signature": "value.is_empty() -> Bool",
+      "summary": "Tests whether an array or string has a length of zero.",
+      "details": "Equivalent to `value.len() == 0`. The receiver is not modified.",
+      "returns": "`true` when the receiver is empty; otherwise `false`.",
+      "panics": "Panics when the receiver is neither an `Array` nor a `String`.",
+      "examples": ["[].is_empty(); // true", "\"Oryn\".is_empty(); // false"]
+    },
+    "get": {
+      "kind": "method",
+      "signature": "array.get(index: Int) -> Option<T>",
+      "summary": "Retrieves an array element with bounds checking.",
+      "details": "Indices start at zero. This method makes lookup failure explicit instead of causing an unsafe memory access.",
+      "parameters": { "index": "Zero-based position of the requested element." },
+      "returns": "`Some(value)` for a valid index; otherwise `None`, including for negative indices.",
+      "panics": "Panics when the receiver is not an array or `index` is not an `Int`.",
+      "examples": ["[10, 20].get(0); // Some(10)", "[10, 20].get(5); // None"]
+    },
+    "first": {
+      "kind": "method",
+      "signature": "array.first() -> Option<T>",
+      "summary": "Returns the first element of an array, if one exists.",
+      "details": "The array is not modified. This is equivalent to a safe lookup at index zero.",
+      "returns": "`Some(value)` for a non-empty array; otherwise `None`.",
+      "panics": "Panics when the receiver is not an array.",
+      "examples": ["[10, 20].first(); // Some(10)", "[].first(); // None"]
+    },
+    "last": {
+      "kind": "method",
+      "signature": "array.last() -> Option<T>",
+      "summary": "Returns the last element of an array, if one exists.",
+      "details": "The array is not modified. Empty arrays are handled explicitly with `None`.",
+      "returns": "`Some(value)` for a non-empty array; otherwise `None`.",
+      "panics": "Panics when the receiver is not an array.",
+      "examples": ["[10, 20].last(); // Some(20)", "[].last(); // None"]
+    },
+    "contains": {
+      "kind": "method",
+      "signature": "text.contains(fragment: String) -> Bool",
+      "summary": "Tests whether a string contains a contiguous fragment.",
+      "details": "Matching is case-sensitive and byte-based. An empty fragment is considered present.",
+      "parameters": { "fragment": "String to search for." },
+      "returns": "`true` when the fragment occurs in the receiver; otherwise `false`.",
+      "panics": "Panics when either the receiver or `fragment` is not a `String`.",
+      "examples": ["\"Oryn\".contains(\"ry\"); // true"]
+    },
+    "starts_with": {
+      "kind": "method",
+      "signature": "text.starts_with(prefix: String) -> Bool",
+      "summary": "Tests whether a string begins with a prefix.",
+      "details": "Matching is case-sensitive and byte-based. Every string starts with the empty string.",
+      "parameters": { "prefix": "Prefix to compare with the beginning of the receiver." },
+      "returns": "`true` when the receiver starts with `prefix`; otherwise `false`.",
+      "panics": "Panics when either the receiver or `prefix` is not a `String`.",
+      "examples": ["\"Oryn\".starts_with(\"Or\"); // true"]
+    },
+    "ends_with": {
+      "kind": "method",
+      "signature": "text.ends_with(suffix: String) -> Bool",
+      "summary": "Tests whether a string ends with a suffix.",
+      "details": "Matching is case-sensitive and byte-based. Every string ends with the empty string.",
+      "parameters": { "suffix": "Suffix to compare with the end of the receiver." },
+      "returns": "`true` when the receiver ends with `suffix`; otherwise `false`.",
+      "panics": "Panics when either the receiver or `suffix` is not a `String`.",
+      "examples": ["\"Oryn\".ends_with(\"yn\"); // true"]
+    },
+    "map": {
+      "kind": "method",
+      "signature": "array.map(transform: fn(T) -> U) -> Array<U>",
+      "summary": "Transforms every array element and returns the collected results.",
+      "details": "The transform runs once per element in source order. The source array is not modified, and evaluation is eager.",
+      "parameters": { "transform": "One-parameter anonymous function that produces a new value for each element." },
+      "returns": "A new array containing the transformed values.",
+      "panics": "Panics at runtime if the receiver is not an array or the argument is not a function.",
+      "examples": ["[1, 2, 3].map(fn n: Int => n * 2); // [2, 4, 6]"]
+    },
+    "filter": {
+      "kind": "method",
+      "signature": "array.filter(predicate: fn(T) -> Bool) -> Array<T>",
+      "summary": "Returns the elements accepted by a predicate.",
+      "details": "Elements retain their original order. The source array is not modified, and evaluation is eager.",
+      "parameters": { "predicate": "One-parameter anonymous function that returns `Bool`." },
+      "returns": "A new array containing only elements for which the predicate returned `true`.",
+      "panics": "Panics at runtime if the receiver is not an array or the argument is not a function.",
+      "examples": ["[1, 2, 3, 4].filter(fn n: Int => n % 2 == 0); // [2, 4]"]
+    },
+    "fold": {
+      "kind": "method",
+      "signature": "array.fold(initial: A, combine: fn(A, T) -> A) -> A",
+      "summary": "Reduces an array from left to right into one accumulated value.",
+      "details": "The initial value is returned unchanged for an empty array. Evaluation is eager and follows source order.",
+      "parameters": {
+        "initial": "Starting accumulator value.",
+        "combine": "Two-parameter anonymous function receiving the accumulator and current element."
+      },
+      "returns": "The final accumulator after every element has been processed.",
+      "panics": "Panics at runtime if the receiver is not an array or `combine` is not a function.",
+      "examples": ["[1, 2, 3].fold(0, fn(acc: Int, n: Int) => acc + n); // 6"]
+    }
+  }
+}
