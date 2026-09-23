@@ -1,0 +1,20 @@
+let cleaned = "  Oryn ML  ".trim().to_lower();
+println(cleaned);
+println("a,b,c".split(","));
+
+let numbers = [1, 2, 3];
+println(numbers.concat([4, 5]).reverse());
+assert(numbers.contains(2));
+
+match numbers.slice(1, 3) {
+    Ok(part) => println(part),
+    Err(message) => panic(message)
+};
+
+println(Int.parse("8080").unwrap_or(3000));
+assert(Float.parse("oops").is_err());
+
+match Some(7) {
+    Some(value) => println(value),
+    _ => println("missing")
+};
