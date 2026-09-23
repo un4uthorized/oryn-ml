@@ -1,0 +1,16 @@
+// Option values make the absence of a value explicit.
+let values = [10, 20, 30];
+
+match values.first() {
+    Some(value) => println(value),
+    None => println("empty array")
+};
+
+match values.last() {
+    Some(value) => println(value),
+    None => println("empty array")
+};
+
+println(values.get(99).unwrap_or(-1));
+println(Some("Oryn").unwrap_or("unknown"));
+
