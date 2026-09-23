@@ -1,0 +1,6 @@
+let name = "Oryn";
+assert(name.len() == 4);
+assert(name.contains("ry"));
+assert(name.starts_with("Or"));
+assert(name.ends_with("yn"));
+println(name);
