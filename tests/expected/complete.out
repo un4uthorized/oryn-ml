@@ -1,0 +1,12 @@
+Oryn-ML score report
+parsed: 
+[82, 91, 0, 64, 100, 73]
+passing: 
+[82, 91, 64, 100, 73]
+adjusted: 
+[87, 96, 69, 100, 78]
+average: 
+86
+status: approved
+first adjusted score: 87
+[87, 96]
