@@ -1,0 +1,17 @@
+fn checked_value(ok: Bool) {
+    if ok { Ok(42) } else { Err("not available") }
+}
+
+match checked_value(true) {
+    Ok(value) => println(value),
+    Err(message) => println(message)
+};
+
+let piped = 20 |> factorial;
+
+fn factorial(n: Int) -> Int {
+    if n <= 1 { 1 } else { n * factorial(n - 1) }
+}
+
+// Pipeline places its left value in the first argument position.
+println(5 |> factorial);
