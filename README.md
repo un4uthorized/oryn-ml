@@ -533,6 +533,7 @@ by GCC and Clang. Compile emitted code with `-std=gnu11`, not only `-std=c11`.
 │   ├── run.sh                  integration test runner
 │   └── sanitize.sh             sanitizer test runner
 ├── editors/vscode/             VS Code language support
+├── LICENSE                     MIT license terms
 └── Makefile
 ```
 
@@ -554,5 +555,6 @@ The smaller examples are organized by feature:
 
 ## License
 
-This repository does not currently include a license file. Define explicit
-license terms before redistributing or reusing the project.
+Oryn-ML is available under the [MIT License](LICENSE). You may use, copy,
+modify, merge, publish, distribute, sublicense, and sell copies of the
+software, provided that the copyright and license notices are retained.
