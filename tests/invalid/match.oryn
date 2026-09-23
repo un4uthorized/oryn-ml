@@ -1,0 +1,3 @@
+match Some(1) {
+    Some(value) => println(value)
+};
