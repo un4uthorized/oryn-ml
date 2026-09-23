@@ -1,0 +1,2 @@
+fn negate(value: Bool) -> Bool { !value }
+println(negate(42));
