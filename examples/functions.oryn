@@ -1,0 +1,12 @@
+// Recursive functions compile to ordinary C functions.
+fn factorial(n: Int) -> Int {
+    if n <= 1 { 1 } else { n * factorial(n - 1) }
+}
+
+fn fibonacci(n: Int) -> Int {
+    if n <= 1 { n } else { fibonacci(n - 1) + fibonacci(n - 2) }
+}
+
+assert(factorial(5) == 120);
+assert(fibonacci(10) == 55);
+println(factorial(6));
