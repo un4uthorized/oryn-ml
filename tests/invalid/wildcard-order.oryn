@@ -1,0 +1,4 @@
+match Some(1) {
+    _ => println("anything"),
+    Some(value) => println(value)
+};
